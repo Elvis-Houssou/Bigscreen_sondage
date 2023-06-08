@@ -140,7 +140,7 @@ class QuestionSeeder extends Seeder
                 'survey_id' => 1,
                 'question_number' => 18,
                 'question_body' => 'Aimeriez-vous pouvoir enregistrer des émissions TV pour pouvoir les regarder ultérieurement ?',
-                'question_type' => 'C', 
+                'question_type' => 'C',
             ],
             [
                 'survey_id' => 1,
