@@ -42,4 +42,12 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    /**
+     * Define a one-to-many relationship.
+     */
+    public function responses()
+    {
+        return $this->hasMany(Response::class);
+    }
 }

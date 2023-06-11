@@ -2,7 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use App\Models\Survey;
+use App\Models\Question;
 use App\Models\Response;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\StoreResponseRequest;
 use App\Http\Requests\UpdateResponseRequest;
 
@@ -27,9 +32,38 @@ class ResponseController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreResponseRequest $request)
+    public function store(Request $request, $surveyId, $userId, $questionId)
     {
-        //
+        try {
+            $validator = Validator::make($request->all(), [
+                'response_text' => 'required|max:255',
+            ]);
+
+            if ($validator->fails()) {
+                return redirect()->back()->withErrors($validator)->withInput();
+            }
+
+            $survey = Survey::find($surveyId);
+            $user = User::find($userId);
+            $question = Question::find($questionId);
+            // dd($survey);
+
+            // Créer une nouvelle réponse en utilisant les valeurs validées
+            $response = new Response;
+            $response->survey()->associate($survey);
+            $response->user()->associate($user);
+            $response->question()->associate($question);
+            $response->response_text = $request->input('response_text');
+
+            // Enregistrer la réponse dans la base de données
+            $response->save();
+        } catch (\Throwable $th) {
+            $error = $th->getMessage();
+            return response()->json(['error'=>$error , 'status'=>'failed'],202);
+            //throw $th;
+        }
+        return response()->json(['error'=>'' ,'message'=>"la paire à ete enregistrées", 'status'=>'done'],200) ;
+
     }
 
     /**
