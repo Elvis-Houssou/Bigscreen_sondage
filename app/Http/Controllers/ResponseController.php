@@ -16,9 +16,11 @@ class ResponseController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function showResponses()
     {
-        //
+        $responses = Response::with('question:id,question_body,question_type')->get();
+
+        return response()->json(['error'=>'', $responses ,'message'=>"Succès", 'status'=>'done'],200) ;
     }
 
     /**

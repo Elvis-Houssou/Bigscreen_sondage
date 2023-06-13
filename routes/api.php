@@ -17,12 +17,18 @@ use App\Http\Controllers\ResponseController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+// Route::middleware('auth:sanctum')->prefix('admin')->group(function() {
+
+// });
+
+Route::middleware('auth:sanctum')->get('/admin', function (Request $request) {
     return $request->user();
 });
 
 
-Route::get('/get',[QuestionController::class, "index"]);
+
+Route::get('/questions/get',[QuestionController::class, "showQuestions"]);
+Route::get('/responses/get',[ResponseController::class, "showResponses"]);
 
 Route::post('/store/{surveyId}/{userId}/{questionId}',[ResponseController::class, "store"]);
 
