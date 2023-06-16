@@ -30,7 +30,8 @@ Route::middleware('auth:sanctum')->get('/admin', function (Request $request) {
 Route::get('/questions/get',[QuestionController::class, "showQuestions"]);
 Route::get('/responses/get',[ResponseController::class, "showResponses"]);
 
-Route::post('/store/{surveyId}/{userId}/{questionId}',[ResponseController::class, "store"]);
+Route::post('/store/{surveyId}/{questionId}',[ResponseController::class, "store"]);
 
 
 Route::post('/user/register',[UserController::class, "register"]);
+Route::post('/user/login',[UserController::class, "login"]);

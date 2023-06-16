@@ -31,4 +31,31 @@ class UserController extends Controller
         return (new UserResource($user))->additional(['error'=>"" ,"Message"=>"Utilisateur enregistré", 'status'=>'done']);
 
     }
+
+    public function login(Request $request){
+        try {
+            $request->validate([
+                "email"=>"required|email:rfc",
+                "password"=>"required|string",
+            ]);
+        } catch (\Throwable $th) {
+            $error = $th->getMessage();
+                return response()->json(['error'=>$error , 'status'=>'failed'],202);
+                //throw $th;
+        }
+
+        $user = User::where(['email'=>$request->email])->first();
+        // Hash::check $request->password
+
+        if (!$user) {
+           return response()->json(['error'=>'impossible de se connecter ' , 'status'=>'failed'],202);
+        }
+        if (!Hash::check($request->password,$user->password) ) {
+           return response()->json(['error'=>'mot de passe incorrect ' , 'status'=>'failed'],202);
+
+        }
+        $userToken = $user->createToken( "token",  ['*'], now())->plainTextToken;
+        return response()->json(['error'=>' ' ,"Token"=>$userToken,"Message"=>"connexion valider" ,'status'=>'done'],200);
+
+    }
 }

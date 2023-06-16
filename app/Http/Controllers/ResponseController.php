@@ -20,7 +20,7 @@ class ResponseController extends Controller
     {
         $responses = Response::with('question:id,question_body,question_type')->get();
 
-        return response()->json(['error'=>'', $responses ,'message'=>"Succès", 'status'=>'done'],200) ;
+        return response()->json(['error'=>'', 'status'=>'done', 'result'=>$responses],200) ;
     }
 
     /**
@@ -34,7 +34,7 @@ class ResponseController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request, $surveyId, $userId, $questionId)
+    public function store(Request $request, $surveyId, $questionId)
     {
         try {
             $validator = Validator::make($request->all(), [
@@ -42,29 +42,28 @@ class ResponseController extends Controller
             ]);
 
             if ($validator->fails()) {
-                return redirect()->back()->withErrors($validator)->withInput();
+                return response()->json(['error' => $validator->errors(), 'status' => 'failed'], 400);
             }
 
             $survey = Survey::find($surveyId);
-            $user = User::find($userId);
             $question = Question::find($questionId);
             // dd($survey);
 
             // Créer une nouvelle réponse en utilisant les valeurs validées
             $response = new Response;
             $response->survey()->associate($survey);
-            $response->user()->associate($user);
             $response->question()->associate($question);
             $response->response_text = $request->input('response_text');
 
             // Enregistrer la réponse dans la base de données
             $response->save();
+
+            return response()->json(['error'=>'' , 'result' => $response ,'message'=>"Succès", 'status'=>'done'],200) ;
         } catch (\Throwable $th) {
             $error = $th->getMessage();
             return response()->json(['error'=>$error , 'status'=>'failed'],202);
             //throw $th;
         }
-        return response()->json(['error'=>'' ,'message'=>"la paire à ete enregistrées", 'status'=>'done'],200) ;
 
     }
 

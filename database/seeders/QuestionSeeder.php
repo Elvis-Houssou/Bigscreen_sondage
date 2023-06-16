@@ -15,24 +15,6 @@ class QuestionSeeder extends Seeder
      */
     public function run(): void
     {
-        // Questions générer aléatoirement
-        // $faker = Faker::create();
-        // $surveys = Survey::all();
-
-            // Générer quelques questions de test pour chaque enquête
-        // foreach ($surveys as $survey) {
-        //     for ($i = 0; $i < 3; $i++) {
-        //         Question::create([
-        //             'survey_id' => $survey->id,
-        //             'question_number' => $i + 1,
-        //             'question_body' => $faker->sentence,
-        //             'question_type' => $faker->randomElement(['A', 'B', 'C']),
-        //         ]);
-        //     }
-        // }
-
-        // Questions générer en fonction du cahier de charge
-
         $questions = [
             [
                 'survey_id' => 1,

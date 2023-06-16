@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('choices', function (Blueprint $table) {
             $table->id();
-            $table->string('choices_text');
+            $table->string('choice_text');
             $table->foreignId('question_id')->references('id')->on('questions');
             $table->timestamps();
         });

@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->string('response_text');
             $table->foreignId('survey_id')->references('id')->on('surveys');
-            $table->foreignId('user_id')->references('id')->on('users');
             $table->foreignId('question_id')->references('id')->on('questions');
             $table->timestamps();
         });

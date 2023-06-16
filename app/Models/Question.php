@@ -20,6 +20,14 @@ class Question extends Model
     /**
      * Define a one-to-many relationship.
      */
+    public function choices()
+    {
+        return $this->hasMany(Choice::class);
+    }
+
+    /**
+     * Define a one-to-many relationship.
+     */
     public function responses()
     {
         return $this->hasMany(Response::class);

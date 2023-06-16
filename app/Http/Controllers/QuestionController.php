@@ -18,7 +18,11 @@ class QuestionController extends Controller
      */
     public function showQuestions()
     {
-        return Question::all();
+        $questions = Question::with('choices:id,choice_text,question_id')
+                            ->select('id','question_number','question_body','question_type','survey_id')
+                            ->get();
+        return response()->json(['error'=>'', 'status'=>'done','result'=>$questions ],200) ;
+
     }
 
     /**
