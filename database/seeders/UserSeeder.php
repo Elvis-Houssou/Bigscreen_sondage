@@ -14,6 +14,7 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
+        // create bigscreen admin
         User::create([
             'name' => 'Big Screen',
             'email' => 'bigscreen@example.com',
