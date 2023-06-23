@@ -87,7 +87,7 @@
 
 <template>
     <div class="container">
-      <h1>bigscreen</h1>
+      <img src="@/assets/bigscreen.svg" alt="" srcset="">
   
       <div class="quizz_box">
         <h1>Liste des questions</h1>
@@ -109,7 +109,8 @@
               <input type="number" class="input_numb" :id="currentQuestion.id" v-model="answers[currentQuestion.id]" min="1" max="5">
             </template>
             <template v-else>
-              <textarea :id="currentQuestion.id" v-model="answers[currentQuestion.id]" cols="153" rows="5"></textarea>
+              <!-- <textarea  cols="153" rows="5"></textarea> -->
+              <input type="text" :id="currentQuestion.id" v-model="answers[currentQuestion.id]" class="input_text">
             </template>
             <div class="d-grid gap-2">
                 <button type="submit" class="btn" @click="submitForm(currentQuestion.survey_id, currentQuestion.id, answers[currentQuestion.id])">Submit</button>
@@ -140,6 +141,10 @@
     text-align: left;
 }
 
+img {
+    margin-top: 5%;
+    width: 50%;
+}
 .quizz_form {
     display: inline-block;
     margin-top: 5%;
@@ -160,6 +165,11 @@ input[type=radio] {
 }
 
 .input_numb {
+    width: 100%;
+    font-size: 25px;
+}
+
+.input_text {
     width: 100%;
     font-size: 25px;
 }
