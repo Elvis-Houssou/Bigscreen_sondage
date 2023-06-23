@@ -55,7 +55,7 @@ class UserController extends Controller
 
         }
         $userToken = $user->createToken( "token",  ['*'], now())->plainTextToken;
-        return response()->json(['error'=>' ' ,"Token"=>$userToken,"Message"=>"connexion valider" ,'status'=>'done'],200);
+        return response()->json(['error'=>' ', "result" => $user ,"Token"=>$userToken,"Message"=>"connexion valider" ,'status'=>'done'],200);
 
     }
 }

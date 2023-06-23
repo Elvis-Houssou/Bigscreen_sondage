@@ -122,13 +122,13 @@ class QuestionSeeder extends Seeder
                 'survey_id' => 1,
                 'question_number' => 18,
                 'question_body' => 'Aimeriez-vous pouvoir enregistrer des émissions TV pour pouvoir les regarder ultérieurement ?',
-                'question_type' => 'C',
+                'question_type' => 'A',
             ],
             [
                 'survey_id' => 1,
                 'question_number' => 19,
                 'question_body' => 'Aimeriez-vous jouer à des jeux exclusifs sur votre Bigscreen ?',
-                'question_type' => 'C',
+                'question_type' => 'A',
             ],
             [
                 'survey_id' => 1,
