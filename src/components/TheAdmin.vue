@@ -5,94 +5,108 @@
     const API_URL = 'http://127.0.0.1:8000/api';
 
     export default {
-        methods: {
-            createChart() {
-                const ctx = document.getElementById('myChart');
-                const ctx1 = document.getElementById('myChart1');
-                const ctx2 = document.getElementById('myChart2');
+      data() {
+        return {
+          answers_surv: [],
+          // currentQuestionIndex: 0,
+          // currentQuestion: null,
+          // answers: {},
+        }
+      },
 
-                new Chart(ctx, {
-                    type: 'pie',
-                    data: {
-                        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-                        datasets: [{
-                            label: '# of Votes',
-                            data: [12, 19, 3, 5, 2, 3],
-                            borderWidth: 1
-                        }]
-                    },
-                    options: {
-                        plugins: {
-                            legend: {
-                            position: 'bottom'
-                            },
-                            tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                return context.label + ': ' + context.parsed + ' votes';
-                                }
-                            }
-                            }
-                        }
-                    }
-                });
+      methods: {
+        async getData() {
+          const res = await(await fetch(`${API_URL}/responses/get/`, {})).json();
 
-                new Chart(ctx1, {
-                    type: 'pie',
-                    data: {
-                        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-                        datasets: [{
-                            label: '# of Votes',
-                            data: [12, 19, 3, 5, 2, 3],
-                            borderWidth: 1
-                        }]
-                    },
-                    options: {
-                        plugins: {
-                            legend: {
-                            position: 'bottom'
-                            },
-                            tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                return context.label + ': ' + context.parsed + ' votes';
-                                }
-                            }
-                            }
-                        }
-                    }
-                });
+          console.log(res);
 
-                new Chart(ctx2, {
-                    type: 'pie',
-                    data: {
-                        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-                        datasets: [{
-                            label: '# of Votes',
-                            data: [12, 19, 3, 5, 2, 3],
-                            borderWidth: 1
-                        }]
-                    },
-                    options: {
-                        plugins: {
-                            legend: {
-                            position: 'bottom'
-                            },
-                            tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                return context.label + ': ' + context.parsed + ' votes';
-                                }
-                            }
-                            }
-                        }
-                    }
-                });
+          if (res.status == 'done') {
+              this.answers_surv = res.result;
+              console.log(res);
+              console.log(res.result.id);
+          }
+          else {
+              console.error(res.error);
+          }
+        },
+
+        createCharts() {
+          const ctx = document.getElementById('myChart');
+          const ctx1 = document.getElementById('myChart1');
+          const ctx2 = document.getElementById('myChart2');
+
+          // Données pour le graphique de la question 6
+          const dataQuestion6 = {
+            labels: ['Option 1', 'Option 2', 'Option 3'],
+            datasets: [{
+              data: [5, 60, 35],
+              backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
+              borderWidth: 1
+            }]
+          };
+
+          // Données pour le graphique de la question 7
+          const dataQuestion7 = {
+            labels: ['Option A', 'Option B', 'Option C'],
+            datasets: [{
+              data: [20, 30, 50],
+              backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
+              borderWidth: 1
+            }]
+          };
+
+          // Données pour le graphique de la question 10
+          const dataQuestion10 = {
+            labels: ['Option X', 'Option Y', 'Option Z'],
+            datasets: [{
+              data: [15, 50, 35],
+              backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
+              borderWidth: 1
+            }]
+          };
+
+          // Options communes pour tous les graphiques
+          const options = {
+            plugins: {
+              legend: {
+                position: 'bottom'
+              },
+              tooltip: {
+                callbacks: {
+                  label: function (context) {
+                    return context.label + ': ' + context.parsed + ' votes';
+                  }
+                }
+              }
             }
-        },
-        mounted() {
-            this.createChart();
-        },
+          };
+
+          // Créer les graphiques avec les données spécifiées
+          new Chart(ctx, {
+            type: 'pie',
+            data: dataQuestion6,
+            options: options
+          });
+
+          new Chart(ctx1, {
+            type: 'pie',
+            data: dataQuestion7,
+            options: options
+          });
+
+          new Chart(ctx2, {
+            type: 'pie',
+            data: dataQuestion10,
+            options: options
+          });
+        }
+      },
+      mounted() {
+        this.createCharts();
+      },
+      created() {
+        this.getData();
+      }
     };
     
     
@@ -173,9 +187,13 @@
         <div style="display: flex; justify-content: space-between; width: 100%;">
             <div style="width: 50%;">
                 <canvas id="myChart" style=" max-height: 500px; margin-bottom: 5%;"></canvas>
+                <!-- <div v-if="currentQuestion.id === 6">
+                  <canvas id="myChart"></canvas>
+                </div> -->
                 <canvas id="myChart1" style=" max-height: 500px;"></canvas>
             </div>
             <div style="width: 50%;">
+                <h1>Question 8</h1>
                 <canvas id="myChart2" style=" max-height: 500px;"></canvas>
             </div>
 

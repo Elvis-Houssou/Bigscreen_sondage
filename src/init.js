@@ -16,7 +16,6 @@ const getCurrentUser = function(key) {
     else 
         return false;
 }
-
 // Vérifie si le token utilisateur est valide
 // const checkUserToken = async function (token, url) {
 //     const res = await ( await fetch(`${url}/user/logged/${token}`) ).json();

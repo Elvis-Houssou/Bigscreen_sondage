@@ -29,6 +29,8 @@
                 if (res.status == 'done') {
                     this.questions = res.result;
                     console.log(res);
+                    // console.log(res.result.name);
+                    alert(`bienvenu administrateur ${res.result.name}`);
 
                     this.$router.push({name: 'admin.home'});
                 }
