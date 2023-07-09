@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\UserToken;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Response extends Model
 {
@@ -14,7 +15,7 @@ class Response extends Model
      *
      */
     protected $fillable = [
-        'response_text',
+        'response_text', 'user_token_id','survey_id','question_id'
     ];
 
     /**
@@ -39,5 +40,13 @@ class Response extends Model
     public function question()
     {
         return $this->belongsTo(Question::class);
+    }
+
+    /**
+     * Define an inverse one-to-many relationship.
+     */
+    public function userToken()
+    {
+        return $this->belongsTo(UserToken::class, 'user_token_id');
     }
 }

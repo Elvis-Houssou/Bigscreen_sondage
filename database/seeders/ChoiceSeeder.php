@@ -77,6 +77,20 @@ class ChoiceSeeder extends Seeder
                     'Non',
                 ],
             ],
+            [
+                'question_id' => 18,
+                'choices' => [
+                    'Oui',
+                    'Non',
+                ],
+            ],
+            [
+                'question_id' => 19,
+                'choices' => [
+                    'Oui',
+                    'Non',
+                ],
+            ],
             // Ajoutez les autres questions avec leurs choix
         ];
 
