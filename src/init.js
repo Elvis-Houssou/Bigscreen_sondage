@@ -1,8 +1,12 @@
 // Pour stocker dans localstorage
 // const storageName = 'vue_token';
+
+import { ref } from "vue";
+
 // L'URL de base de notre API
 const API_URL = 'http://127.0.0.1:8000/api';
 const storageName = 'Api_Token';
+const isLoggedIn = ref(false);
 
 // Récupére l'id et le token de l'utilisateur depuis le localstorage
 const getCurrentUser = function(key) {
@@ -25,5 +29,5 @@ const getCurrentUser = function(key) {
 // Exporte les variables
 // export { storageName, API_URL }
 // export { storageName, API_URL, getCurrentUser }
-export { API_URL, storageName, getCurrentUser}
+export { API_URL, storageName, getCurrentUser, isLoggedIn }
 // export { storageName, API_URL, getCurrentUser, checkUserToken }

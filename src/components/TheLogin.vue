@@ -1,8 +1,5 @@
 <script>
- import "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js";
-
-    const API_URL = 'http://127.0.0.1:8000/api';
-    
+    import { isLoggedIn } from '../init';
     export default {
         data() {
         return {
@@ -13,7 +10,7 @@
 
         methods: {
             async Login() {
-                const res = await(await fetch(`${API_URL}/user/login`, {
+                const res = await(await fetch(`${this.API_URL}/user/login`, {
                     method: 'post',
                     headers: {
                         'Content-Type': 'application/json; charset=utf-8'
@@ -31,6 +28,7 @@
                     console.log(res);
                     // console.log(res.result.name);
                     alert(`bienvenu administrateur ${res.result.name}`);
+                    isLoggedIn.value = true;
 
                     this.$router.push({name: 'admin.home'});
                 }
@@ -48,6 +46,7 @@
 
 <template>
     <div class="container">
+        <img src="@/assets/bigscreen.svg" alt="" srcset="">
        <div class="form_box">
             <div>
                 <h1>Login</h1>
@@ -84,11 +83,14 @@
 </template>
 
 <style scoped>    
-    @import url("https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css");
+
+    img {
+        margin-top: 5%;
+    }
 
     .form_box {
         margin-left: 23%;
-        margin-top: 25%;
+        margin-top: 15%;
         align-items: center;
         border: 3px solid white;
         border-radius: 25px;

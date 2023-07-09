@@ -1,5 +1,9 @@
 // import './assets/main.css'
-import { storageName, getCurrentUser } from './init';
+import {API_URL, storageName, getCurrentUser } from './init';
+
+import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap/scss/bootstrap.scss';
+
 
 
 import { createApp } from 'vue'
@@ -8,9 +12,11 @@ import router from './router'
 
 const app = createApp(App)
 
+
 app.use(router)
 
 app.config.globalProperties.storageName = storageName;
+app.config.globalProperties.API_URL = API_URL;
 app.config.globalProperties.getCurrentUser = getCurrentUser;
 
 app.mount('#app')

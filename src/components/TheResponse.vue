@@ -1,7 +1,4 @@
 <script>
- import "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js";
-
-    const API_URL = 'http://127.0.0.1:8000/api';
     
     export default {
         data() {
@@ -15,7 +12,7 @@
 
         methods: {
             async getData() {
-                const res = await(await fetch(`${API_URL}/responses/get`, {})).json();
+                const res = await(await fetch(`${this.API_URL}/responses/get`, {})).json();
 
                 console.log(res);
 
@@ -46,7 +43,6 @@
 
 <style scoped>
 
-@import url("https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css");
 
 
 </style>

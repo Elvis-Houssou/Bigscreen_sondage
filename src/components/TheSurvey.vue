@@ -1,7 +1,4 @@
 <script>
- import "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js";
-
-    const API_URL = 'http://127.0.0.1:8000/api';
     
     export default {
         data() {
@@ -9,17 +6,17 @@
                 questions: [],
                 currentQuestionIndex: 0,
                 currentQuestion: null,
-                answers: {},
+                responses: {},
                 showError: false,
+                seeData: undefined,
                 mailError: false,
+                answers6: 0,
             }
         },
 
         methods: {
             async getData() {
-                const res = await(await fetch(`${API_URL}/questions/get/`, {})).json();
-
-                console.log(res);
+                const res = await(await fetch(`${this.API_URL}/questions/get/`, {})).json();
 
                 if (res.status == 'done') {
                     this.questions = res.result;
@@ -31,49 +28,44 @@
                 }
             },
 
-            async submitForm(surveyId, questionId, responseText) {
-                // Vérification de la validité de l'e-mail
-                // if (questionId === 1) {
-                //     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                //     if (!emailRegex.test(responseText)) {
-                //         alert('Veuillez entrer une adresse e-mail valide.');
-                //         return; // Arrêt de la soumission du formulaire si l'e-mail est invalide
-                //     }
-                // }
+            async submitAllResponses() {
+                const responses = [];
 
-                // Vérification de la validité de la réponse pour les questions de type "C"
-                if (this.currentQuestion.question_type === 'C' && (responseText < 1 || responseText > 5)) {
-                    alert('Veuillez entrer un nombre entre 1 et 5.');
-                    return; // Arrêt de la soumission du formulaire si la réponse est invalide
+                // Construire la liste des réponses à envoyer
+                for (const questionId in this.responses) {
+                    const responseText = this.responses[questionId];
+                    responses.push({
+                    response_text: responseText,
+                    question_id: questionId,
+                    survey_id: this.currentQuestion.survey_id
+                    });
                 }
 
-                // Soumettre les réponses au serveur
-                const ans = await(await fetch(`${API_URL}/store/${surveyId}/${questionId}`, {
+                // Envoyer les réponses au serveur
+                const ans = await (await fetch(`${this.API_URL}/responses/store`, {
                     method: 'post',
                     headers: {
                         'Content-Type': 'application/json; charset=utf-8'
                     },
                     body: JSON.stringify({
-                        answers : this.answers,
-                        response_text: responseText
+                        responses: responses
                     })
                 })).json();
 
-                console.log(ans);
-
-                if (ans.status == 'done') {
-                    this.answers = ans.result;
+                
+                if (ans.status === 'done') {
                     console.log(ans);
-                    this.currentQuestionIndex++;
 
-                    if (this.currentQuestionIndex < this.questions.length) {
-                        this.currentQuestion = this.questions[this.currentQuestionIndex];
-                    } else {
-                        this.currentQuestion = null;
-                        // redirige a la page reponse après avoir redpondu a là dernière question
-                        this.$router.push({ name: 'responses' });
-                    }
+                    this.seeData = ans.token
 
+                    console.log(seeData);
+
+                    // Réinitialiser les données
+                    this.responses = {};
+                    this.currentQuestionIndex = 0;
+                    this.currentQuestion = this.questions[this.currentQuestionIndex];
+                    // this.$router.push({ name: 'responses' }); // Rediriger vers la page de réponses
+                    // console.log("push");
                 } else {
                     console.error(ans.error);
                 }
@@ -87,10 +79,12 @@
             },
 
             nextQuestion() {
+                // Sauvegarde de la réponse dans la variable responseText
+                const responseText = this.responses[this.currentQuestion.id];
                 // Vérification de l'e-mail lors du passage à la question suivante
                 if (this.currentQuestionIndex === 0) {
                     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                    const responseText = this.answers[this.currentQuestion.id];
+                    const responseText = this.responses[this.currentQuestion.id];
                     if (!emailRegex.test(responseText)) {
                         this.mailError = true;
                     // alert('Veuillez entrer une adresse e-mail valide.');
@@ -98,15 +92,26 @@
                     }
                 }
 
+                // if (this.currentQuestionIndex === 5) {
+                //     const responseText = this.responses[this.currentQuestion.id];
+                //     if (responseText) {
+                //         this.answers6 = responseText.count(); // Affecter la valeur à la propriété answers6
+                //         return;
+                //     }
+                // }
+
                 // Vérification de la validité de la réponse pour les questions de type "C"
                 if (this.currentQuestion.question_type === 'C') {
-                    const responseText = this.answers[this.currentQuestion.id];
+                    const responseText = this.responses[this.currentQuestion.id];
                     if (responseText < 1 || responseText > 5) {
                         // alert('Veuillez entrer un nombre entre 1 et 5.');
                         this.showError = true;
                         return; // Arrêt du passage à la question suivante si la réponse est invalide
                     }
                 }
+
+                // Sauvegarde de la réponse dans l'objet responses
+                this.responses[this.currentQuestion.id] = responseText;
 
                 this.currentQuestionIndex++;
 
@@ -124,7 +129,6 @@
         },
         created() {
             this.getData();
-            // this.submitForm();
         },
     }
 
@@ -145,17 +149,17 @@
             <template v-if="currentQuestion.question_type === 'A'">
               <div class="responses_box">
                 <div v-for="choice in currentQuestion.choices" :key="choice.id" class="responses">
-                  <input type="radio" :id="choice.id" :value="choice.choice_text" v-model="answers[currentQuestion.id]">
+                  <input type="radio" :id="choice.id" :value="choice.choice_text" v-model="responses[currentQuestion.id]">
                   <label :for="choice.id">{{ choice.choice_text }}</label>
                 </div>
               </div>
             </template>
             <template v-else-if="currentQuestion.question_type === 'C'">
-              <input type="number" class="input_numb" :id="currentQuestion.id" v-model="answers[currentQuestion.id]" min="1" max="5">
+              <input type="number" class="input_numb" :id="currentQuestion.id" v-model.number="responses[currentQuestion.id]" min="1" max="5">
               <p v-if="showError" class="error_message">Veuillez entrer un nombre entre 1 et 5.</p>
             </template>
             <template v-else>
-              <input type="text" :id="currentQuestion.id" v-model="answers[currentQuestion.id]" class="input_text">
+              <input type="text" :id="currentQuestion.id" v-model="responses[currentQuestion.id]" class="input_text">
               <p v-if="mailError" class="error_message">Veuillez une adresse mail valide</p>
             </template>
             <div class="form_validate">
@@ -163,10 +167,14 @@
                     <button type="button" class="btn" @click="previousQuestion" v-if="currentQuestionIndex > 0">Précédent</button>
                     <button type="button" class="btn" @click="nextQuestion" v-if="currentQuestionIndex < questions.length - 1">Suivant</button>
                 </div>
-                <button type="button" class="btn" @click="submitForm(currentQuestion.survey_id, currentQuestion.id, answers[currentQuestion.id])" v-if="currentQuestionIndex === questions.length - 1">Soumettre</button>
+                <!-- <button type="button" class="btn" @click="submitForm(currentQuestion.survey_id, currentQuestion.id, responses[currentQuestion.id])" v-if="currentQuestionIndex === questions.length - 1">Soumettre</button> -->
+                <button type="button" class="btn" @click="submitAllResponses" v-if="currentQuestionIndex === questions.length - 1">Soumettre</button>
             </div>
           </div>
         </div>
+        <!-- <div v-if="ans.status === 'done'">
+          <h2>seeData</h2>
+        </div> -->
         <div v-else>
           <h2>Questionnaire terminé. Merci!</h2>
         </div>
@@ -177,7 +185,6 @@
 
 <style scoped>
 
-@import url("https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css");
 .responses {
     padding: 8px;
 }
@@ -189,6 +196,8 @@
 .quizz_box {
     align-items: center;
     border: 1px solid white;
+    
+    background-color: rgb(49, 49, 49);
     margin-top: 50px;
     border-radius: 35px;
     padding: 3%;

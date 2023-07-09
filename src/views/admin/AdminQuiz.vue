@@ -1,5 +1,6 @@
 <script setup>
-import AdminHome from '../../components/TheAdmin.vue'
+import AdminQuiz from '../../components/TheAdminQuiz.vue'
+
 </script>
 
 <template>
@@ -70,7 +71,7 @@ import AdminHome from '../../components/TheAdmin.vue'
     </div>
 
     <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-      <AdminHome />
+      <AdminQuiz />
     </main>
   </div>
 </div>
