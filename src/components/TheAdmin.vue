@@ -1,25 +1,23 @@
 <script>
     import Chart from 'chart.js/auto';
 
+
+
     export default {
       data() {
         return {
-          answers_surv: [],
-          // currentQuestionIndex: 0,
-          // currentQuestion: null,
-          // answers: {},
+          answerCounters: [],
         }
       },
-      props: ['answers6'],
 
       methods: {
         async getData() {
-          const res = await(await fetch(`${this.API_URL}/responses/get/graphic`, {})).json();
+          const res = await(await fetch(`${this.API_URL}/responses/store`, {})).json();
 
           console.log(res);
 
           if (res.status == 'done') {
-              this.answers_surv = res.result;
+              this.answerCounters = res.result;
               console.log(res);
               console.log(res.result.id);
           }
@@ -97,13 +95,115 @@
             data: dataQuestion10,
             options: options
           });
+        },
+
+        radarCarts() {
+          const ctx4 = document.getElementById('myChartRadar');
+
+
+          const data = {
+            labels: [
+              '1',
+              '2',
+              '3',
+              '4',
+              '5',
+            ],
+            datasets: [
+              {
+                label: 'Question 11',
+                data: [65, 59, 90, 81, 56],
+                fill: true,
+                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                borderColor: 'rgb(255, 99, 132)',
+                pointBackgroundColor: 'rgb(255, 99, 132)',
+                pointBorderColor: '#fff',
+                pointHoverBackgroundColor: '#fff',
+                pointHoverBorderColor: 'rgb(255, 99, 132)'
+              },
+              {
+                label: 'Question 12',
+                data: [40, 19, 96, 27, 100],
+                fill: true,
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                borderColor: 'rgb(54, 162, 235)',
+                pointBackgroundColor: 'rgb(54, 162, 235)',
+                pointBorderColor: '#fff',
+                pointHoverBackgroundColor: '#fff',
+                pointHoverBorderColor: 'rgb(54, 162, 235)'
+              },
+              {
+                label: 'Question 13',
+                data: [48, 40, 19, 96, 27],
+                fill: true,
+                backgroundColor: 'rgba(0, 252, 130, 0.2)',
+                borderColor: 'rgb(0, 252, 130)',
+                pointBackgroundColor: 'rgb(0, 252, 130)',
+                pointBorderColor: '#fff',
+                pointHoverBackgroundColor: '#fff',
+                pointHoverBorderColor: 'rgb(0, 252, 130)'
+              },
+              {
+                label: 'Question 14',
+                data: [82, 19, 96, 17, 100],
+                fill: true,
+                backgroundColor: 'rgba(229, 252, 0, 0.2)',
+                borderColor: 'rgb(229, 252, 0)',
+                pointBackgroundColor: 'rgb(229, 252, 0)',
+                pointBorderColor: '#fff',
+                pointHoverBackgroundColor: '#fff',
+                pointHoverBorderColor: 'rgb(229, 252, 0)'
+              },
+              {
+                label: 'Question 15',
+                data: [75, 48, 40, 63, 100],
+                fill: true,
+                backgroundColor: 'rgba(221, 0, 252, 0.2)',
+                borderColor: 'rgb(221, 0, 252)',
+                pointBackgroundColor: 'rgb(221, 0, 252)',
+                pointBorderColor: '#fff',
+                pointHoverBackgroundColor: '#fff',
+                pointHoverBorderColor: 'rgb(221, 0, 252)'
+              }
+            ]
+          };
+
+          // Options communes pour tous les graphiques
+          const options = {
+            plugins: {
+              legend: {
+                position: 'left'
+              },
+              tooltip: {
+                callbacks: {
+                  label: function (context) {
+                    return context.label + ': ' + context.parsed + ' votes';
+                  }
+                }
+              }
+            },
+            elements: {
+                line: {
+                  borderWidth: 3,
+                },
+            },
+          };
+
+          // Créer les graphiques avec les données spécifiées
+          new Chart(ctx4, {
+            type: 'radar',
+            data: data,
+            options: options
+          });
+
         }
       },
       mounted() {
         this.createCharts();
+        this.radarCarts();
       },
       created() {
-        this.getData();
+        // this.getData();
       }
     };
     
@@ -133,7 +233,12 @@
 
   <h2>Section title</h2>
 
-  <div class="table-responsive small"> </div>
+  <div class="table-responsive small"> 
+    <div>
+      <!-- <h1>Question 7</h1> -->
+      <canvas id="myChartRadar" style=" max-height: 500px;"></canvas>
+    </div>
+  </div>
 </template>
 
 <style scoped>  

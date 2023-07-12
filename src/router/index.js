@@ -27,7 +27,7 @@ const router = createRouter({
       component: HomeView
     },
     {
-      path: '/reponse',
+      path: '/reponse/:token',
       name: 'responses',
       component: ResponseView
     },

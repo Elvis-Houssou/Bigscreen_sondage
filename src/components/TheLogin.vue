@@ -5,11 +5,25 @@
         return {
             email : undefined,
             password : undefined,
+            userText : false,
+            adminName: '',
+            mailError: false,
+            passwordError: false,
         }
         },
 
         methods: {
             async Login() {
+                if (!this.email) {
+                    this.mailError = true;
+                    return;
+                }
+
+                if (!this.password) {
+                    this.passwordError = true;
+                    return;
+                }
+
                 const res = await(await fetch(`${this.API_URL}/user/login`, {
                     method: 'post',
                     headers: {
@@ -27,15 +41,21 @@
                     this.questions = res.result;
                     console.log(res);
                     // console.log(res.result.name);
-                    alert(`bienvenu administrateur ${res.result.name}`);
+                    // alert(`bienvenu administrateur ${res.result.name}`);
+                    
+                    this.userText = true;
+                    this.adminName = res.result.name;
+                    
                     isLoggedIn.value = true;
-
-                    this.$router.push({name: 'admin.home'});
+                    setTimeout(() => {
+                        this.$router.push({name: 'admin.home'});
+                    }, 1500); 
                 }
                 else {
                     console.error(res.error);
                 }
             },
+
         },
         // created() {
         //     this.getData();
@@ -51,6 +71,9 @@
             <div>
                 <h1>Login</h1>
             </div>
+
+            <h3 v-if="userText && adminName" class="success">Bienvenue administrateur {{ adminName }} </h3>
+
             <form>
                 <div class="input-group mb-3">
                     <span class="input-group-text text-white">
@@ -63,6 +86,7 @@
                         <label for="Email" class="text-dark">Email</label>
                     </div>
                 </div>
+                <p v-if="mailError" class="error">Veuillez saisir votre adresse e-mail.</p>
                 <div class="input-group mb-3">
                     <span class="input-group-text text-white bg-danger">
                         <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-lock-fill" viewBox="0 0 16 16">
@@ -74,6 +98,7 @@
                         <label for="password" class="text-dark">Password</label>
                     </div>
                 </div>
+                <p v-if="passwordError" class="error">Mot de passe incorrect.</p>
                 <div class="d-grid">
                     <button class="btn" type="submit" @click.prevent="Login()" >Button</button>
                 </div>
@@ -86,6 +111,14 @@
 
     img {
         margin-top: 5%;
+    }
+
+    .success  {
+        color: rgb(5, 255, 5);
+    }
+
+    .error{
+        color: rgb(255, 5, 5);
     }
 
     .form_box {

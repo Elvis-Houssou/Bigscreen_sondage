@@ -1,5 +1,9 @@
 <script>
-    
+
+    // import { createApp, reactive } from 'vue';
+    // import { updateAnswerCount } from '../init';
+
+
     export default {
         data() {
             return {
@@ -8,13 +12,13 @@
                 currentQuestion: null,
                 responses: {},
                 showError: false,
-                seeData: undefined,
                 mailError: false,
-                answers6: 0,
+                // answerCounters: {}
             }
         },
 
         methods: {
+            // updateAnswerCount,
             async getData() {
                 const res = await(await fetch(`${this.API_URL}/questions/get/`, {})).json();
 
@@ -35,9 +39,9 @@
                 for (const questionId in this.responses) {
                     const responseText = this.responses[questionId];
                     responses.push({
-                    response_text: responseText,
-                    question_id: questionId,
-                    survey_id: this.currentQuestion.survey_id
+                        response_text: responseText,
+                        question_id: questionId,
+                        survey_id: this.currentQuestion.survey_id
                     });
                 }
 
@@ -56,19 +60,20 @@
                 if (ans.status === 'done') {
                     console.log(ans);
 
-                    this.seeData = ans.token
-
-                    console.log(seeData);
-
                     // Réinitialiser les données
                     this.responses = {};
                     this.currentQuestionIndex = 0;
                     this.currentQuestion = this.questions[this.currentQuestionIndex];
-                    // this.$router.push({ name: 'responses' }); // Rediriger vers la page de réponses
-                    // console.log("push");
+                    
+                    this.showPopupWithLink(ans.token); // Afficher la pop-up avec le lien de redirection
                 } else {
                     console.error(ans.error);
                 }
+            },
+            showPopupWithLink(token) {
+                const link = `${window.location.origin}/reponse/${token}`;
+                const popupContent = `Copiez le lien suivant pour accéder à la page des réponses : ${link}`;
+                alert(popupContent);
             },
             
             previousQuestion() {
@@ -91,14 +96,6 @@
                         return; // Arrêt du passage à la question suivante si l'e-mail est invalide
                     }
                 }
-
-                // if (this.currentQuestionIndex === 5) {
-                //     const responseText = this.responses[this.currentQuestion.id];
-                //     if (responseText) {
-                //         this.answers6 = responseText.count(); // Affecter la valeur à la propriété answers6
-                //         return;
-                //     }
-                // }
 
                 // Vérification de la validité de la réponse pour les questions de type "C"
                 if (this.currentQuestion.question_type === 'C') {
@@ -126,6 +123,19 @@
                 this.showError = false; // Réinitialisation de l'indicateur d'erreur
                 this.mailError = false; // Réinitialisation de l'indicateur d'erreur
             },
+
+            // updateAnswerCount(choice) {
+            //     if (this.currentQuestionIndex === 5) {
+            //         if (!this.answerCounters[choice.id]) {
+            //             // Initialiser le compteur si c'est la première sélection
+            //             this.answerCounters[choice.id] = 1;
+            //         } else {
+            //             // Incrémenter le compteur si déjà sélectionné
+            //             this.answerCounters[choice.id]++;
+            //         }
+            //     }
+            // }
+            
         },
         created() {
             this.getData();
@@ -149,8 +159,9 @@
             <template v-if="currentQuestion.question_type === 'A'">
               <div class="responses_box">
                 <div v-for="choice in currentQuestion.choices" :key="choice.id" class="responses">
-                  <input type="radio" :id="choice.id" :value="choice.choice_text" v-model="responses[currentQuestion.id]">
+                  <input type="radio" :id="choice.id" :value="choice.choice_text" v-model="responses[currentQuestion.id]" > <!-- @change="updateAnswerCount(choice)" a mettre dans le input-->
                   <label :for="choice.id">{{ choice.choice_text }}</label>
+                  <!-- <span>{{ answerCounters[choice.id] || 0 }}</span>  -->
                 </div>
               </div>
             </template>

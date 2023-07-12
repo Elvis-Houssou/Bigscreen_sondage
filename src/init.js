@@ -31,3 +31,15 @@ const getCurrentUser = function(key) {
 // export { storageName, API_URL, getCurrentUser }
 export { API_URL, storageName, getCurrentUser, isLoggedIn }
 // export { storageName, API_URL, getCurrentUser, checkUserToken }
+
+// export function updateAnswerCount(choice) {
+//     if (this.currentQuestionIndex === 5) {
+//       if (!this.answerCounters[choice.id]) {
+//         // Initialiser le compteur si c'est la première sélection
+//         this.answerCounters[choice.id] = 1;
+//       } else {
+//         // Incrémenter le compteur si déjà sélectionné
+//         this.answerCounters[choice.id]++;
+//       }
+//     }
+// }
