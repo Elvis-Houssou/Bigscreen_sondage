@@ -20,7 +20,7 @@ class ResponseController extends Controller
      */
     public function showGraphic()
     {
-        $responses = Response::with('question:id,question_body,question_type')->get();
+        $responses = Response::all();
 
         return response()->json(['error'=>'', 'status'=>'done', 'result'=>$responses],200) ;
     }
@@ -40,13 +40,7 @@ class ResponseController extends Controller
         return response()->json(['error'=>'', 'status'=>'done', 'result' => $responses], 200);
     }
 
-    // public function userResponse(UserToken $id)
-    // {
 
-    //     $userResponses = $id->responseToken()->with('question:id,question_body,question_type')->get();
-
-    //     return response()->json(['error' => '', 'status' => 'done', 'result' => $userResponses], 200);
-    // }
 
     public function userResponse($token)
     {
@@ -94,15 +88,6 @@ class ResponseController extends Controller
             $token->token = $createToken;
             $token->save();
 
-            $answerCounters = [
-                'Oculus Quest' => 0 ,
-                'Oculus Rift/s' => 0 ,
-                'HTC Vive' => 0 ,
-                'Windows Mixed' => 0 ,
-                'Reality' => 0 ,
-                'Valve index' => 0
-            ];
-
             // dd($responses);
             // Parcourir les réponses et les formater pour l'insertion
             foreach ($responses as $response) {
@@ -112,37 +97,12 @@ class ResponseController extends Controller
                     'survey_id' => $response['survey_id'],
                     'user_token_id' => $token->id,
                 ]);
-
-                // Vérifier si la réponse correspond à la question 6
-                if ($response['question_id'] == 6) {
-                    // Incrémenter le compteur correspondant en fonction de la réponse
-                    switch ($response['response_text']) {
-                        case 'Oculus Quest':
-                            $answerCounters['Oculus Quest']++;
-                            break;
-                        case 'Oculus Rift/s':
-                            $answerCounters['Oculus Rift/s']++;
-                            break;
-                        case 'HTC Vive':
-                            $answerCounters['HTC Vive']++;
-                            break;
-                        case 'Windows Mixed':
-                            $answerCounters['Windows Mixed']++;
-                            break;
-                        case 'Reality':
-                            $answerCounters['Reality']++;
-                            break;
-                        case 'Valve index':
-                            $answerCounters['Valve index']++;
-                            break;
-                    }
-                }
             }
 
             // dd($answerCounters);
 
 
-            return response()->json(['error' => '',"message" => "Les réponses ont bien été enregistré" , "count" => $answerCounters , "token" => $createToken , 'status' => 'done'], 200);
+            return response()->json(['error' => '',"message" => "Les réponses ont bien été enregistré" , "token" => $createToken , 'status' => 'done'], 200);
         } catch (\Throwable $th) {
             $error = $th->getMessage();
             return response()->json(['error' => $error, 'status' => 'error'], 202);

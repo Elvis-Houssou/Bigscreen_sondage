@@ -17,26 +17,33 @@ use App\Http\Controllers\ResponseController;
 |
 */
 
-// Route::middleware('auth:sanctum')->prefix('admin')->group(function() {
-
-// });
-
-Route::middleware('auth:sanctum')->get('/admin', function (Request $request) {
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+Route::post('/register',[UserController::class, "register"]);
+Route::post('/login',[UserController::class, "login"]);
+
+// Protected routes
+
+Route::middleware('trusttoken')->prefix('admin')->group(function() {
+    Route::get('/get/graphic/{token?}',[UserController::class, "showGraphic"]);
+    Route::get('/get/question/{token}',[UserController::class, "questionsList"]);
+    Route::get('/get/responses/{token}',[UserController::class, "surveyedResponses"]);
 });
 
 
 
-Route::get('/questions/get',[QuestionController::class, "showQuestions"]);
-Route::get('/responses/get/graphic',[ResponseController::class, "showGraphic"]);
-Route::get('/responses/get',[ResponseController::class, "showResponses"]);
-Route::get('/user/responses/get/{token}',[ResponseController::class, "userResponse"]);
 
-// Route::post('/store/{surveyId}/{questionId}',[ResponseController::class, "store"]);
-// Route::post('/responses/store', [ResponseController::class, "store"]);
-Route::post('/responses/store', [ResponseController::class, "responseStore"]);
-// Route::match(['get', 'post'], '/responses/store', [ResponseController::class, "responseStore"]);
+// Public routes
 
+// Route::get('/questions/get',[QuestionController::class, "showQuestions"]);
+// Route::get('/user/responses/get/{token}',[ResponseController::class, "userResponse"]);
 
-Route::post('/user/register',[UserController::class, "register"]);
-Route::post('/user/login',[UserController::class, "login"]);
+// Route::post('/responses/store', [ResponseController::class, "responseStore"]);
+
+Route::prefix('user')->group(function () {
+    Route::get('/get/questions', [QuestionController::class, "showQuestions"]);
+    Route::get('/get/responses/{token}', [ResponseController::class, "userResponse"]);
+    Route::post('/store/responses', [ResponseController::class, "responseStore"]);
+});

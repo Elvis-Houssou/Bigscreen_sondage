@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Question;
+use App\Models\Response;
 use Illuminate\Http\Request;
 use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Hash;
@@ -54,8 +56,44 @@ class UserController extends Controller
            return response()->json(['error'=>'mot de passe incorrect ' , 'status'=>'failed'],202);
 
         }
-        $userToken = $user->createToken( "token",  ['*'], now())->plainTextToken;
-        return response()->json(['error'=>' ', "result" => $user ,"Token"=>$userToken,"Message"=>"connexion valider" ,'status'=>'done'],200);
+        $userToken = $user->createToken( "token",  ['*'], now()->addMinutes(15))->plainTextToken;
+        return response()->json(['error'=>' ', "result" => $user ,"token"=>$userToken,"Message"=>"connexion valider" ,'status'=>'done'],200);
 
+    }
+
+    /**
+     * Display a listing of the responses for the graphic.
+     */
+    public function showGraphic()
+    {
+        $responses = Response::all();
+
+        return response()->json(['error'=>'', 'status'=>'done', 'result'=>$responses],200) ;
+    }
+
+    /**
+     * Display a listing of the resource.
+     */
+    public function questionsList()
+    {
+        $questions = Question::with('choices:id,choice_text,question_id')
+                            ->select('id','question_number','question_body','question_type','survey_id')
+                            ->get();
+        return response()->json(['error'=>'', 'status'=>'done','result'=>$questions ],200) ;
+
+    }
+
+    /**
+     * Display a listing of the resource.
+     */
+    public function surveyedResponses()
+    {
+        $responses = Response::with('question:id,question_body')
+                                ->select('user_token_id','question_id','response_text')
+                                ->orderBy('question_id', 'asc')
+                                ->get()
+                                ->groupBy('user_token_id');
+
+        return response()->json(['error'=>'', 'status'=>'done', 'result' => $responses], 200);
     }
 }
