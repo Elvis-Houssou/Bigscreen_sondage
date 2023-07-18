@@ -1,12 +1,9 @@
-// Pour stocker dans localstorage
-// const storageName = 'vue_token';
-
-import { ref } from "vue";
 
 // L'URL de base de notre API
 const API_URL = 'http://127.0.0.1:8000/api';
+
+// Pour stocker dans localstorage
 const storageName = 'Api_Token';
-const isLoggedIn = ref(false);
 
 // Récupére l'id et le token de l'utilisateur depuis le localstorage
 const getCurrentUser = function(key) {
@@ -20,26 +17,6 @@ const getCurrentUser = function(key) {
     else 
         return false;
 }
-// Vérifie si le token utilisateur est valide
-// const checkUserToken = async function (token, url) {
-//     const res = await ( await fetch(`${url}/user/logged/${token}`) ).json();
-//     return res.status == 'done';
-// }
 
 // Exporte les variables
-// export { storageName, API_URL }
-// export { storageName, API_URL, getCurrentUser }
-export { API_URL, storageName, getCurrentUser, isLoggedIn }
-// export { storageName, API_URL, getCurrentUser, checkUserToken }
-
-// export function updateAnswerCount(choice) {
-//     if (this.currentQuestionIndex === 5) {
-//       if (!this.answerCounters[choice.id]) {
-//         // Initialiser le compteur si c'est la première sélection
-//         this.answerCounters[choice.id] = 1;
-//       } else {
-//         // Incrémenter le compteur si déjà sélectionné
-//         this.answerCounters[choice.id]++;
-//       }
-//     }
-// }
+export { storageName, API_URL, getCurrentUser }

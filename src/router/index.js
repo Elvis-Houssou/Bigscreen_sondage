@@ -8,13 +8,17 @@ import AdminAnswers from '../views/Admin/AdminAnswers.vue'
 import HomeView from '../views/HomeView.vue'
 import ResponseView from '../views/ResponseView.vue'
 
-import { isLoggedIn } from '../init';
+import { getCurrentUser, storageName } from '../init'
+
 
 const requireAuth = (to, from, next) => {
-  if (isLoggedIn.value) {
-    next(); // L'utilisateur est connecté, autorise la navigation
+  const token = getCurrentUser(storageName).token;
+  if (token) {
+    // L'utilisateur est connecté, autorise la navigation
+    next();
   } else {
-    next('/login'); // L'utilisateur n'est pas connecté, redirige vers la page de connexion
+    // L'utilisateur n'est pas connecté, redirige vers la page de connexion
+    next('/login');
   }
 };
 
@@ -60,5 +64,6 @@ const router = createRouter({
     },
   ]
 })
+
 
 export default router

@@ -4,21 +4,11 @@ import AdminHome from '../../components/TheAdmin.vue'
 
 <template>
   <header class="navbar sticky-top bg-dark flex-md-nowrap p-0 shadow" data-bs-theme="dark">
-  <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6 text-white" href="#">bigscreen</a>
 
   <ul class="navbar-nav flex-row d-md-none">
     <li class="nav-item text-nowrap">
       <button class="nav-link px-3 text-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSearch" aria-controls="navbarSearch" aria-expanded="false" aria-label="Toggle search">
         <svg class="bi"><use xlink:href="#search"/></svg>
-      </button>
-    </li>
-    <li class="nav-item text-nowrap">
-      <button class="nav-link px-3 text-white" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house-fill" viewBox="0 0 16 16">
-                    <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L8 2.207l6.646 6.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.707 1.5Z"/>
-                    <path d="m8 3.293 6 6V13.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5V9.293l6-6Z"/>
-        </svg>
-        Dashboard
       </button>
     </li>
   </ul>
@@ -38,6 +28,9 @@ import AdminHome from '../../components/TheAdmin.vue'
         </div>
         <div class="offcanvas-body d-md-flex flex-column p-0 pt-lg-3 overflow-y-auto">
           <ul class="nav flex-column">
+            <li class="nav-item">
+              <img src="@/assets/bigscreen2.svg" alt="" srcset="" class="nav-link d-flex align-items-center gap-2">   
+            </li>
             <li class="nav-item">
               <RouterLink class="nav-link d-flex align-items-center gap-2 active text-dark" to="/administration">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house-fill" viewBox="0 0 16 16">
@@ -76,3 +69,14 @@ import AdminHome from '../../components/TheAdmin.vue'
 </div>
   
 </template>
+
+<style>
+  header a {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700;
+  }
+  li img {
+    width: 100%;
+    margin-bottom: 10%;
+  }
+</style>

@@ -1,8 +1,9 @@
-// import './assets/main.css'
 import {API_URL, storageName, getCurrentUser } from './init';
 
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/scss/bootstrap.scss';
+import 'bootstrap-icons/font/bootstrap-icons.css';
+
 
 
 
