@@ -65,5 +65,14 @@
 
 <style scoped>  
 
+.table thead {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+}
+
+.table tbody {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+}
 
 </style>

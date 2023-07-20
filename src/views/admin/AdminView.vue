@@ -75,6 +75,10 @@ import AdminHome from '../../components/TheAdmin.vue'
     font-family: 'Orbitron', sans-serif;
     font-weight: 700;
   }
+  li {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 500;
+  }
   li img {
     width: 100%;
     margin-bottom: 10%;

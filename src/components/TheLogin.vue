@@ -33,6 +33,7 @@
                 
 
                 if (res.status == 'done') {
+                    this.formError = false;
                     this.questions = res.result;
                     console.log(res);
                     window.localStorage.setItem(this.storageName, res.token);

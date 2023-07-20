@@ -68,7 +68,7 @@
 
         <div class="main">
             <div class="info">
-                <h2 v-if="results.length > 0">Vous trouverez ci-dessous les réponses que vous avez apportées à notre sondage le {{ formatDate(results[0].created_at) }} :</h2>
+                <h2 v-if="results.length > 0">Vous trouverez ci-dessous les réponses que vous avez apportées à notre sondage le {{ formatDate(results[0].created_at) }} .</h2>
             </div>
             <div v-for="(result, index) in results" class="questionBlock">
                 <div class="showQuestion">
@@ -108,13 +108,13 @@
 
 .info h2 {
     font-family: 'Poppins', sans-serif;
-    font-size: 23px;
     font-weight: 400;
+    font-size: 23px;
     text-align: center;
 }
 .showQuestion {
     display: flex;
-    padding: 1% 0 1% 1%;
+    padding: 2% 5% 1% 1%;
 }
 
 .showQuestion h3 {
@@ -128,7 +128,7 @@
 
 .questionBlock {
     background-color: rgb(43, 43, 43);
-    border-radius: 10px;
+    border-radius: 15px;
     text-align: left;
     margin-bottom: 2%;
 }

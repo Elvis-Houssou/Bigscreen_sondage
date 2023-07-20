@@ -9,15 +9,15 @@
           'Oculus Quest' : 0,
           'Oculus Rift/s' : 0,
           'HTC Vive' : 0,
-          'Windows Mixed' : 0,
+          'Windows Mixed Reality' : 0,
           'Reality' : 0,
           'Valve index' : 0
         },
         answerQuestion7: {
           'SteamVR' : 0,
-          'Occulus store' : 0,
+          'Oculus Store' : 0,
           'Viveport' : 0,
-          'Windows store' : 0
+          'Windows Store' : 0
         },
         answerQuestion10: {
           'regarder la TV en direct' : 0,
@@ -90,8 +90,8 @@
                   case 'HTC Vive':
                     this.answerQuestion6['HTC Vive']++;
                     break;
-                  case 'Windows Mixed':
-                    this.answerQuestion6['Windows Mixed']++;
+                  case 'Windows Mixed Reality':
+                    this.answerQuestion6['Windows Mixed Reality']++;
                     break;
                   case 'Reality':
                     this.answerQuestion6['Reality']++;
@@ -107,14 +107,14 @@
                   case 'SteamVR':
                     this.answerQuestion7['SteamVR']++;
                     break;
-                  case 'Occulus store':
-                    this.answerQuestion7['Occulus store']++;
+                  case 'Oculus Store':
+                    this.answerQuestion7['Oculus Store']++;
                     break;
                   case 'Viveport':
                     this.answerQuestion7['Viveport']++;
                     break;
-                  case 'Windows store':
-                    this.answerQuestion7['Windows store']++;
+                  case 'Windows Store':
+                    this.answerQuestion7['Windows Store']++;
                     break;
                   default:
                     break;
@@ -249,9 +249,9 @@
 
             // Données pour le graphique de la question 6
             const dataQuestion6 = {
-              labels: ['Oculus Quest', 'Oculus Rift/s', 'HTC Vive', 'Windows Mixed', 'Reality', 'Valve index'],
+              labels: ['Oculus Quest', 'Oculus Rift/s', 'HTC Vive', 'Windows Mixed Reality', 'Reality', 'Valve index'],
               datasets: [{
-                data: [this.answerQuestion6['Oculus Quest'], this.answerQuestion6['Oculus Rift/s'], this.answerQuestion6['HTC Vive'], this.answerQuestion6['Windows Mixed'], this.answerQuestion6['Reality'], this.answerQuestion6['Valve index']],
+                data: [this.answerQuestion6['Oculus Quest'], this.answerQuestion6['Oculus Rift/s'], this.answerQuestion6['HTC Vive'], this.answerQuestion6['Windows Mixed Reality'], this.answerQuestion6['Reality'], this.answerQuestion6['Valve index']],
                 backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#FF5733', '#FC0000', '#0041FC'],
                 borderWidth: 1
               }]
@@ -259,9 +259,9 @@
 
             // Données pour le graphique de la question 7
             const dataQuestion7 = {
-              labels: ['SteamVR', 'Occulus store', 'Viveport', 'Windows store'],
+              labels: ['SteamVR', 'Oculus Store', 'Viveport', 'Windows Store'],
               datasets: [{
-                data: [this.answerQuestion7['SteamVR'], this.answerQuestion7['Occulus store'], this.answerQuestion7['Viveport'], this.answerQuestion7['Windows store']],
+                data: [this.answerQuestion7['SteamVR'], this.answerQuestion7['Oculus Store'], this.answerQuestion7['Viveport'], this.answerQuestion7['Windows Store']],
                 backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#FF5733'],
                 borderWidth: 1
               }]
@@ -470,7 +470,7 @@
       </div>
   </div>
 
-  <div >
+  <div class="adminBody" >
     <div style="display: flex; width: 100%; justify-content: space-between;">
       <div style="width: 50%;">
         <h1>Question 6</h1>
@@ -498,5 +498,8 @@
 </template>
 
 <style scoped>  
-
+.adminBody { 
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+}
 </style>

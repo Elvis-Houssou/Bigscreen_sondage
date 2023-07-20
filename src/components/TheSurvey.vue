@@ -185,7 +185,7 @@
 
             <h1>Formulaire</h1>
             <br>
-            <h5>Merci de repondre à toutes les questios et de valider le formulaire en fin de page.</h5>
+            <h5>Merci de répondre à toutes les questions et de valider le formulaire en fin de page.</h5>
             <div v-if="currentQuestion !== null">
                 <div class="quizz_form">
                     <h3>Question {{ currentQuestion.question_number }}/20</h3>
@@ -246,11 +246,12 @@
                 <div>
                     <p>
                         Toute l’équipe de Bigscreen vous remercie pour votre engagement. Grâce à
-                        votre investissement, nous vous préparons une application toujours plus facile
-                        à utiliser, seul ou en famille. <br>
-                        Si vous désirez consulter vos réponses ultérieurement, vous pouvez consultez
-                        cette adresse:
+                        votre investissement, <br> nous vous préparons une application toujours plus facile
+                        à utiliser, seul ou en famille.
+                        
                     </p>
+                    <P>Si vous désirez consulter vos réponses ultérieurement, vous pouvez consultez
+                        cette adresse:</P>
                     <!-- Ajoutez ici le contenu stylisé de votre fenêtre pop-up -->
                     <div class="block">
                         <button class="flex ml-auto gap-2" @click="copyToClipboard()" id="copy">
@@ -263,7 +264,7 @@
                             </svg>
                             lien copié
                         </button>
-                        <div id="myText">
+                        <div id="myText" class="overflow-y-auto">
                             <p>{{ link }}</p>
                         </div>
                     </div>
@@ -279,13 +280,14 @@
     margin-top: 5%;
     width: 50%;
     margin-left: 23%;
+    flex-wrap: wrap;
 }
 
 .redirection {
     position: absolute;
     top: 0;
     margin-top: 20%;
-    margin-left: 32%;
+    margin-left: 28%;
     max-width: 45%;
     padding: 2%;
     background-color: rgb(49, 49, 49);
@@ -308,7 +310,6 @@
 
 #myText {
     background-color: rgb(29, 29, 29);
-
     padding: 1% 1% 1% 3%;
     text-align: left;
 }
@@ -405,7 +406,7 @@
 }
 
 .form-check {
-    margin: 2% 1%;
+    margin: 5% 1%;
     display: flex;
     align-items: center;
 }
@@ -414,14 +415,15 @@
 .form-check-input {
     /* margin-left: 1%; */
     align-items: center;
+    margin-right: 2%;
 
 }
 
 
 .form-check-label {
     margin-left: 2%;
-    align-items: center;
     font-size: 25px;
+    flex-wrap: wrap;
 }
 
 
