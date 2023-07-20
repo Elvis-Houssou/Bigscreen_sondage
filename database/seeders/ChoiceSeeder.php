@@ -57,7 +57,7 @@ class ChoiceSeeder extends Seeder
                 'question_id' => 10,
                 'choices' => [
                     'regarder la TV en direct',
-                    'regarder des films,',
+                    'regarder des films',
                     'travailler',
                     'jouer en solo',
                     ' jouer en équipe',
