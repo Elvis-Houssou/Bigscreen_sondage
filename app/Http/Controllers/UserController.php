@@ -20,7 +20,7 @@ class UserController extends Controller
             ]);
         } catch (\Throwable $th) {
             $error = $th->getMessage();
-                return response()->json(['error'=>$error , 'status'=>'failed'],202);
+                return response()->json(['status'=>'failed', 'error'=>$error],202);
                 //throw $th;
         }
 
@@ -30,7 +30,7 @@ class UserController extends Controller
             "password"=>Hash::make($request->password),
         ]);
 
-        return (new UserResource($user))->additional(['error'=>"" ,"Message"=>"Utilisateur enregistré", 'status'=>'done']);
+        return response()->json(['status'=>'done' ,"Message"=>"Utilisateur enregistré", 'result' => $user]);
 
     }
 
@@ -42,22 +42,20 @@ class UserController extends Controller
             ]);
         } catch (\Throwable $th) {
             $error = $th->getMessage();
-                return response()->json(['error'=>$error , 'status'=>'failed'],202);
-                //throw $th;
+                return response()->json([ 'status'=>'failed', 'error'=>$error],202);
         }
 
         $user = User::where(['email'=>$request->email])->first();
-        // Hash::check $request->password
 
         if (!$user) {
-           return response()->json(['error'=>'impossible de se connecter ' , 'status'=>'failed'],202);
+           return response()->json(['status'=>'failed', 'error'=>'impossible de se connecter '],202);
         }
         if (!Hash::check($request->password,$user->password) ) {
-           return response()->json(['error'=>'mot de passe incorrect ' , 'status'=>'failed'],202);
+           return response()->json(['status'=>'failed', 'error'=>'mot de passe incorrect '],202);
 
         }
         $userToken = $user->createToken( "token",  ['*'], now()->addMinutes(15))->plainTextToken;
-        return response()->json(['error'=>' ', "result" => $user ,"token"=>$userToken,"Message"=>"connexion valider" ,'status'=>'done'],200);
+        return response()->json(['status'=>'done', "Message"=>"connexion valider", "result" => $user ,"token"=>$userToken],200);
 
     }
 
@@ -68,7 +66,7 @@ class UserController extends Controller
     {
         $responses = Response::all();
 
-        return response()->json(['error'=>'', 'status'=>'done', 'result'=>$responses],200) ;
+        return response()->json([ 'status'=>'done', 'result'=>$responses],200) ;
     }
 
     /**
@@ -79,7 +77,7 @@ class UserController extends Controller
         $questions = Question::with('choices:id,choice_text,question_id')
                             ->select('id','question_number','question_body','question_type','survey_id')
                             ->get();
-        return response()->json(['error'=>'', 'status'=>'done','result'=>$questions ],200) ;
+        return response()->json(['status'=>'done', 'result'=>$questions],200) ;
 
     }
 
@@ -94,6 +92,6 @@ class UserController extends Controller
                                 ->get()
                                 ->groupBy('user_token_id');
 
-        return response()->json(['error'=>'', 'status'=>'done', 'result' => $responses], 200);
+        return response()->json(['status'=>'done', 'result' => $responses], 200);
     }
 }

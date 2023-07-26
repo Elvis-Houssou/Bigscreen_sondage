@@ -17,25 +17,6 @@ class ResponseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Reponses générer aléatoirement
-
-        // $faker = Faker::create();
-        // $surveys = Survey::all();
-        // $users = User::all();
-        // $questions = Question::all();
-
-            // Générer quelques réponses de test pour chaque utilisateur, enquête et question
-        // foreach ($surveys as $survey) {
-        //     foreach ($users as $user) {
-        //         foreach ($questions as $question) {
-        //             Response::create([
-        //                 'survey_id' => $survey->id,
-        //                 'user_id' => $user->id,
-        //                 'question_id' => $question->id,
-        //                 'response_text' => $faker->sentence,
-        //             ]);
-        //         }
-        //     }
-        // }
+       //
     }
 }

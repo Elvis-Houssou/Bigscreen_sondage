@@ -37,11 +37,6 @@ Route::middleware('trusttoken')->prefix('admin')->group(function() {
 
 // Public routes
 
-// Route::get('/questions/get',[QuestionController::class, "showQuestions"]);
-// Route::get('/user/responses/get/{token}',[ResponseController::class, "userResponse"]);
-
-// Route::post('/responses/store', [ResponseController::class, "responseStore"]);
-
 Route::prefix('user')->group(function () {
     Route::get('/get/questions', [QuestionController::class, "showQuestions"]);
     Route::get('/get/responses/{token}', [ResponseController::class, "userResponse"]);

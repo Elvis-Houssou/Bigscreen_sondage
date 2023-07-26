@@ -91,7 +91,6 @@ class ChoiceSeeder extends Seeder
                     'Non',
                 ],
             ],
-            // Ajoutez les autres questions avec leurs choix
         ];
 
         foreach ($questions as $data) {

@@ -14,7 +14,7 @@ class UserTokenController extends Controller
     public function showresponses()
     {
         $questions = UserToken::with('responses:id,response_text,question_id', 'questions:')
-                            ->get();
-        return response()->json(['error'=>'', 'status'=>'done','result'=>$questions ],200) ;
+                                ->get();
+        return response()->json(['status'=>'done', 'result'=>$questions ],200) ;
     }
 }
