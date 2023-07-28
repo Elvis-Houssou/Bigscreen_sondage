@@ -11,29 +11,10 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    public function register(Request $request){
-        try {
-            $request->validate([
-                'name'=>'required|string',
-                'email'=>'required|email:filter',
-                'password'=>'required|string',
-            ]);
-        } catch (\Throwable $th) {
-            $error = $th->getMessage();
-                return response()->json(['status'=>'failed', 'error'=>$error],202);
-                //throw $th;
-        }
 
-        $user = User::create([
-            "name"=>$request->name,
-            "email"=>$request->email,
-            "password"=>Hash::make($request->password),
-        ]);
-
-        return response()->json(['status'=>'done' ,"Message"=>"Utilisateur enregistré", 'result' => $user]);
-
-    }
-
+    /**
+     * fonction de connexion de l'utilisateur
+     */
     public function login(Request $request){
         try {
             $request->validate([
@@ -60,7 +41,7 @@ class UserController extends Controller
     }
 
     /**
-     * Display a listing of the responses for the graphic.
+     * Display a listing of the responses.
      */
     public function showGraphic()
     {
