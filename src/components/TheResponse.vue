@@ -7,14 +7,18 @@
         }
         },
 
+        // Lorsque le composant est monté, ajouter un écouteur d'événement pour le défilement
         mounted() {
             window.addEventListener("scroll", this.handleScroll);
         },
+
+        // Avant que le composant soit détruit, retirer l'écouteur d'événement pour le défilement
         beforeDestroy() {
             window.removeEventListener("scroll", this.handleScroll);
         },
 
         methods: {
+            // Méthode asynchrone pour récupérer les données des réponses à partir du serveur
             async getData() {
                 const token = this.$route.params.token;
                 const res = await(await fetch(`${this.API_URL}/user/get/responses/${token}`, {})).json();
@@ -22,8 +26,8 @@
                 console.log(res);
 
                 if (res.status == 'done') {
-                    this.results = res.result;
                     console.log(res);
+                    this.results = res.result; // Stocker les réponses dans le tableau des résultats
 
                     
                 }

@@ -1,42 +1,41 @@
 <script>
+  export default {
+    data() {
+      return {
+        questions: [], // tableau pour stocker les questions récupérées depuis le serveur
+      }
+    },
 
-    export default {
-      data() {
-        return {
-          questions: [], // tableau pour stocker les questions récupérées depuis le serveur
+    methods: {
+      
+      // Méthode asynchrone pour récupérer les questions depuis le serveur
+      async getData() {
+        const res = await(await fetch(`${this.API_URL}/admin/get/question/${this.getCurrentUser(this.storageName).token}`, {})).json();
+
+        // Vérifie si la réponse du serveur est réussie
+        if (res.status == 'done') {
+          console.log(res);
+          this.questions = res.result;
+        }
+        else {
+          console.error(res.error);
         }
       },
 
-      methods: {
-        
-        // Fonction pour récupérer les questions depuis le serveur
-        async getData() {
-          const res = await(await fetch(`${this.API_URL}/admin/get/question/${this.getCurrentUser(this.storageName).token}`, {})).json();
-
-          if (res.status == 'done') {
-            this.questions = res.result;
-            console.log(res);
-          }
-          else {
-            console.error(res.error);
-          }
-        },
-
-        // Fonction de déconnexion de l'administrateur
-        logout() {
-          if (this.storageName) {
-            window.localStorage.removeItem(this.storageName);
-            this.$router.push({name: 'login'});
-          }
-        },
+      // Fonction de déconnexion de l'administrateur
+      logout() {
+        if (this.storageName) {
+          window.localStorage.removeItem(this.storageName);
+          this.$router.push({name: 'login'});
+        }
       },
+    },
 
-      created() {
-            this.getData();
-      },
-    };
-    
-    
+    // Récupérer les questions lors de la création du composant
+    created() {
+          this.getData();
+    },
+  };  
 </script>
 
 <template>

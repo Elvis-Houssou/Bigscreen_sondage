@@ -3,14 +3,15 @@
     export default {
       data() {
         return {
-          answers: [], // tableau pour stocker les answers récupérées depuis le serveur
+          answers: [], // tableau pour stocker les réponses récupérées depuis le serveur
         }
       },
       methods: {
+        // Méthode asynchrone pour récupérer les réponses des utilisateurs depuis le serveur
         async getData() {
             const res = await(await fetch(`${this.API_URL}/admin/get/responses/${this.getCurrentUser(this.storageName).token}`, {})).json();
 
-            
+            // Vérifier si la réponse du serveur est réussie
             if (res.status == 'done') {
                 this.answers = res.result;
             }
@@ -18,6 +19,8 @@
                 console.error(res.error);
             }
         },
+
+        // Fonction de déconnexion de l'administrateur
         logout() {
             if (this.storageName) {
               window.localStorage.removeItem(this.storageName);

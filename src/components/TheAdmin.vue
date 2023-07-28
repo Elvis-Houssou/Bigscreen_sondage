@@ -78,15 +78,16 @@
     },
 
     methods: {
-      // Fonction pour récupérer les données nécessaires pour les graphiques depuis le serveur
+      // Méthode asynchrone pour récupérer les données nécessaires pour les graphiques depuis le serveur
       async getData() {
         const res = await(await fetch(`${this.API_URL}/admin/get/graphic/${this.getCurrentUser(this.storageName).token}`, {})).json();
 
-        // console.log(res);
 
+        // Vérifier si la réponse du serveur est réussie
         if (res.status == 'done') {
             this.answerGraphic = res.result;
 
+            // Traiter les données reçues pour chaque question et les stocker dans les variables appropriées pour les graphiques
             this.answerGraphic.forEach(e => {
               if ( e.question_id === 6 ) {
                 switch (e.response_text) {
@@ -250,7 +251,6 @@
                 }
               }
             });
-            // console.log(this.answerQuestion6);
 
             const ctx = document.getElementById('myChart');
             const ctx1 = document.getElementById('myChart1');

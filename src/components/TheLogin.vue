@@ -13,7 +13,7 @@
         },
 
         methods: {
-            // Méthode pour effectuer la connexion en envoyant les données au serveur
+            // Méthode asynchrone pour effectuer la connexion en envoyant les données au serveur
             async Login() {
                 const res = await(await fetch(`${this.API_URL}/login`, {
                     method: 'post',
@@ -31,28 +31,24 @@
                 
 
                 if (res.status == 'done') {
-                    this.formError = false;
-                    this.questions = res.result;
                     console.log(res);
-                    window.localStorage.setItem(this.storageName, res.token);
-                    this.userText = true;
-                    this.adminName = res.result.name;
+                    this.formError = false; // Réinitialiser l'indicateur d'erreur en cas de connexion réussie
+                    window.localStorage.setItem(this.storageName, res.token); // Stocker le jeton d'authentification dans le stockage local du navigateur
+                    this.userText = true; // Activer l'affichage du message de bienvenue
+                    this.adminName = res.result.name; // Stocker le nom de l'administrateur connecté
                     
-                    // isLoggedIn.value = true;
                     setTimeout(() => {
-                        this.$router.push({name: 'admin.home'});
+                        this.$router.push({name: 'admin.home'}); // Rediriger l'utilisateur vers la page d'accueil de l'administrateur après une courte pause
                     }, 1500); 
                 }
                 else {
                     console.error(res.error);
-                    this.formError = true;
+                    this.formError = true; // Activer l'affichage du message d'erreur général en cas d'échec de connexion
 
                 }
             },
-
         },
     }
-
 </script>
 
 <template>

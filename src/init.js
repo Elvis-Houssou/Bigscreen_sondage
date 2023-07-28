@@ -10,7 +10,6 @@ const getCurrentUser = function(key) {
     if (window.localStorage.getItem(key)) {
         let userToken = window.localStorage.getItem(key);
         return {
-            // id: userId,
             token: userToken
         }
     }

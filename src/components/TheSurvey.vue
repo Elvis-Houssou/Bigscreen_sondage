@@ -20,15 +20,17 @@
 
             // Méthode asynchrone pour récupérer les questions depuis le serveur
             async getData() {
+                // Appel à l'API pour récupérer les questions
                 const res = await(await fetch(`${this.API_URL}/user/get/questions`, {})).json();
 
+                // Vérification du statut de la réponse
                 if (res.status == 'done') {
-                    this.questions = res.result;
                     console.log(res);
-                    this.currentQuestion = this.questions[this.currentQuestionIndex];
+                    this.questions = res.result; // Stockage des questions dans la variable du composant
+                    this.currentQuestion = this.questions[this.currentQuestionIndex]; // Définition de la première question à afficher
                 }
                 else {
-                    console.error(res.error);
+                    console.error(res.error); // Affichage de l'erreur en cas de problème lors de la récupération des questions
                 }
             },
 
@@ -57,23 +59,24 @@
                     })
                 })).json();
 
-                
+                // Vérification du statut de la réponse
                 if (ans.status === 'done') {
                     console.log(ans);
 
                     
-                    document.getElementById("form").style.display = "none"; 
+                    document.getElementById("form").style.display = "none";  // Masquer le formulaire après soumission
 
+                    // Afficher la fenêtre pop-up de remerciement avec le lien vers les réponses utilisateur
                     this.showPopup = true;
                     this.link = `${window.location.origin}/reponses/${ans.token}`;
 
 
-                    // Réinitialiser les données
+                    // Réinitialiser les données pour un nouveau remplissage du formulaire
                     this.responses = {};
                     this.currentQuestionIndex = 0;
                     this.currentQuestion = this.questions[this.currentQuestionIndex];
                 } else {
-                    console.error(ans.error);
+                    console.error(ans.error); // Affichage de l'erreur en cas de problème lors de la soumission des réponses
                     this.FormError = true;
 
                 }
@@ -107,7 +110,6 @@
                 if (this.currentQuestion.question_type === 'C') {
                     const responseText = this.responses[this.currentQuestion.id];
                     if (responseText < 1 || responseText > 5) {
-                        // alert('Veuillez entrer un nombre entre 1 et 5.');
                         this.showError = true;
                         return; // Arrêt du passage à la question suivante si la réponse est invalide
                     }
@@ -118,12 +120,11 @@
 
                 this.currentQuestionIndex++;
 
+                // Afficher la question suivante si elle existe, sinon afficher le message de fin du questionnaire
                 if (this.currentQuestionIndex < this.questions.length) {
                     this.currentQuestion = this.questions[this.currentQuestionIndex];
                 } else {
                     this.currentQuestion = null;
-                    // Redirige à la page reponse après avoir répondu à la dernière question
-                    // this.$router.push({ name: 'responses' });
                 }
 
                 this.showError = false; // Réinitialisation de l'indicateur d'erreur
@@ -140,7 +141,7 @@
 
                     // Masquer le message après 3 secondes
                     setTimeout(function() {
-                        document.getElementById("copied").style.display = "none"; // Masquer le message après 3 secondes
+                        document.getElementById("copied").style.display = "none";
                         document.getElementById("copy").style.display = "initial"; 
                     }, 3000);
                 }, function() {
