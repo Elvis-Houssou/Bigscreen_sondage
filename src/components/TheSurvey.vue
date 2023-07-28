@@ -4,20 +4,21 @@
     export default {
         data() {
             return {
-                questions: [],
-                currentQuestionIndex: 0,
-                currentQuestion: null,
-                responses: {},
-                showError: false,
-                mailError: false,
-                FormError: false,
-                showPopup: false,
-                link: ''
+                questions: [],              // Tableau des questions récupérées du serveur
+                currentQuestionIndex: 0,    // Index de la question actuellement affichée
+                currentQuestion: null,      // Question actuelle
+                responses: {},              // Réponses fournies par l'utilisateur
+                showError: false,           // Indicateur pour afficher les erreurs de saisie
+                mailError: false,           // Indicateur pour afficher les erreurs de saisie d'adresse e-mail
+                FormError: false,           // Indicateur pour afficher les erreurs générales du formulaire
+                showPopup: false,           // Indicateur pour afficher ou masquer la fenêtre pop-up
+                link: '',                   // Lien de redirection vers les réponses utilisateur
             }
         },
 
         methods: {
-            // updateAnswerCount,
+
+            // Méthode asynchrone pour récupérer les questions depuis le serveur
             async getData() {
                 const res = await(await fetch(`${this.API_URL}/user/get/questions`, {})).json();
 
@@ -31,6 +32,7 @@
                 }
             },
 
+            // Méthode asynchrone pour soumettre toutes les réponses à l'API
             async submitAllResponses() {
                 const responses = [];
 
@@ -63,51 +65,22 @@
                     document.getElementById("form").style.display = "none"; 
 
                     this.showPopup = true;
-                    this.link = `${window.location.origin}/reponse/${ans.token}`;
+                    this.link = `${window.location.origin}/reponses/${ans.token}`;
 
 
                     // Réinitialiser les données
                     this.responses = {};
                     this.currentQuestionIndex = 0;
                     this.currentQuestion = this.questions[this.currentQuestionIndex];
-                    
-                    // this.showPopupWithLink(ans.token); // Afficher la pop-up avec le lien de redirection
                 } else {
                     console.error(ans.error);
                     this.FormError = true;
 
                 }
 
-                // this.FormError = false;
-
-            },
-            closePopup() {
-                this.showPopup = false; // Fermer la fenêtre pop-up
-                window.location.reload(); // Recharger la page
-            },
-            // showPopupWithLink(token) {
-            //     const link = `${window.location.origin}/reponse/${token}`;
-            //     const popupContent = `Copiez le lien suivant pour accéder à la page des réponses : ${link}`;
-            //     alert(popupContent);
-            // },
-
-            copyToClipboard() {
-                var textToCopy = document.getElementById("myText").textContent;
-                navigator.clipboard.writeText(textToCopy).then(function() {
-                    console.log('Texte copié : ' + textToCopy);
-                    document.getElementById("copy").style.display = "none"; 
-                    document.getElementById("copied").style.display = "initial"; 
-
-                    setTimeout(function() {
-                        document.getElementById("copied").style.display = "none"; // Masquer le message après 3 secondes
-                        document.getElementById("copy").style.display = "initial"; 
-                    }, 3000);
-                }, function() {
-                    console.error('Erreur lors de la copie du texte');
-                });
-                
             },
             
+            // Méthode pour afficher la question précédente dans le formulaire
             previousQuestion() {
                 this.currentQuestionIndex--;
                 if (this.currentQuestionIndex >= 0) {
@@ -115,16 +88,17 @@
                 }
             },
 
+            // Méthode pour passer à la question suivante dans le formulaire
             nextQuestion() {
                 // Sauvegarde de la réponse dans la variable responseText
                 const responseText = this.responses[this.currentQuestion.id];
+
                 // Vérification de l'e-mail lors du passage à la question suivante
                 if (this.currentQuestionIndex === 0) {
                     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
                     const responseText = this.responses[this.currentQuestion.id];
                     if (!emailRegex.test(responseText)) {
                         this.mailError = true;
-                    // alert('Veuillez entrer une adresse e-mail valide.');
                         return; // Arrêt du passage à la question suivante si l'e-mail est invalide
                     }
                 }
@@ -156,17 +130,30 @@
                 this.mailError = false; // Réinitialisation de l'indicateur d'erreur
             },
 
-            // updateAnswerCount(choice) {
-            //     if (this.currentQuestionIndex === 5) {
-            //         if (!this.answerCounters[choice.id]) {
-            //             // Initialiser le compteur si c'est la première sélection
-            //             this.answerCounters[choice.id] = 1;
-            //         } else {
-            //             // Incrémenter le compteur si déjà sélectionné
-            //             this.answerCounters[choice.id]++;
-            //         }
-            //     }
-            // }
+            // Méthode pour copier le lien de redirection dans le presse-papiers
+            copyToClipboard() {
+                var textToCopy = document.getElementById("myText").textContent;
+                navigator.clipboard.writeText(textToCopy).then(function() {
+                    console.log('Texte copié : ' + textToCopy);
+                    document.getElementById("copy").style.display = "none"; 
+                    document.getElementById("copied").style.display = "initial"; 
+
+                    // Masquer le message après 3 secondes
+                    setTimeout(function() {
+                        document.getElementById("copied").style.display = "none"; // Masquer le message après 3 secondes
+                        document.getElementById("copy").style.display = "initial"; 
+                    }, 3000);
+                }, function() {
+                    console.error('Erreur lors de la copie du texte');
+                });
+                
+            },
+
+            // Méthode pour fermer la fenêtre pop-up et recharger la page
+            closePopup() {
+                this.showPopup = false; // Fermer la fenêtre pop-up
+                window.location.reload(); // Recharger la page
+            },
             
         },
         created() {
@@ -244,14 +231,14 @@
                     </svg>
                 </button>
                 <div>
-                    <p>
+                    <h6>
                         Toute l’équipe de Bigscreen vous remercie pour votre engagement. Grâce à
                         votre investissement, <br> nous vous préparons une application toujours plus facile
                         à utiliser, seul ou en famille.
                         
-                    </p>
-                    <P>Si vous désirez consulter vos réponses ultérieurement, vous pouvez consultez
-                        cette adresse:</P>
+                    </h6>
+                    <h6>Si vous désirez consulter vos réponses ultérieurement, vous pouvez consultez
+                        cette adresse:</h6>
                     <!-- Ajoutez ici le contenu stylisé de votre fenêtre pop-up -->
                     <div class="block">
                         <button class="flex ml-auto gap-2" @click="copyToClipboard()" id="copy">
@@ -265,7 +252,7 @@
                             lien copié
                         </button>
                         <div id="myText" class="overflow-y-auto">
-                            <p>{{ link }}</p>
+                            <h6>{{ link }}</h6>
                         </div>
                     </div>
                 </div>

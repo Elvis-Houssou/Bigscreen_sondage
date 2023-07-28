@@ -31,7 +31,7 @@ const router = createRouter({
       component: HomeView
     },
     {
-      path: '/reponse/:token',
+      path: '/reponses/:token',
       name: 'responses',
       component: ResponseView
     },

@@ -4,7 +4,10 @@
   export default {
     data() {
       return {
+        // Données pour les graphiques
         answerGraphic: {},
+
+        // Initialiser les données pour le graphique de la question 6
         answerQuestion6: {
           'Oculus Quest' : 0,
           'Oculus Rift/s' : 0,
@@ -13,12 +16,16 @@
           'Reality' : 0,
           'Valve index' : 0
         },
-        answerQuestion7: {
+
+        // Initialiser les données pour le graphique de la question 7
+        answerQuestion7: { 
           'SteamVR' : 0,
           'Oculus Store' : 0,
           'Viveport' : 0,
           'Windows Store' : 0
         },
+
+        // Initialiser les données pour le graphique de la question 10
         answerQuestion10: {
           'regarder la TV en direct' : 0,
           'regarder des films' : 0,
@@ -27,6 +34,7 @@
           'jouer en équipe' : 0
         }, 
 
+        // Initialiser les données pour les graphiques des questions 11 à 15
         answerQcm11: {
           '1' : 0,
           '2' : 0,
@@ -70,6 +78,7 @@
     },
 
     methods: {
+      // Fonction pour récupérer les données nécessaires pour les graphiques depuis le serveur
       async getData() {
         const res = await(await fetch(`${this.API_URL}/admin/get/graphic/${this.getCurrentUser(this.storageName).token}`, {})).json();
 
@@ -447,6 +456,7 @@
         }
       },
 
+      // Fonction de déconnexion de l'administrateur
       logout() {
           if (this.storageName) {
             window.localStorage.removeItem(this.storageName);
@@ -454,6 +464,8 @@
           }
       },
     },
+    
+    // Récupérer les données nécessaires lors du chargement du composant
     mounted() {
       this.getData();
     },

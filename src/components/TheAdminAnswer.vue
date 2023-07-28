@@ -1,18 +1,18 @@
 <script>
+
     export default {
       data() {
         return {
-          questions: [],
+          answers: [], // tableau pour stocker les answers récupérées depuis le serveur
         }
       },
-
       methods: {
         async getData() {
             const res = await(await fetch(`${this.API_URL}/admin/get/responses/${this.getCurrentUser(this.storageName).token}`, {})).json();
 
+            
             if (res.status == 'done') {
-                this.questions = res.result;
-                console.log(res);
+                this.answers = res.result;
             }
             else {
                 console.error(res.error);
@@ -42,7 +42,7 @@
       </div>
   </div>
 
-  <table class="table table-dark table-hover" v-for='(answer, index) in questions' :key="index">
+  <table class="table table-dark table-hover" v-for='(answer, index) in answers' :key="index">
     
     <thead>
       <tr>

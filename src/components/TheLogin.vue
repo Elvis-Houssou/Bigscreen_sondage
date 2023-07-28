@@ -1,22 +1,20 @@
 <script>
-    // import { isLoggedIn } from '../init';
     export default {
         data() {
-        return {
-            email : undefined,
-            password : undefined,
-            userText : false,
-            adminName: '',
-            mailError: false,
-            passwordError: false,
-            formError: false,
-        }
+            return {
+                email : undefined,      // Champ de saisie de l'adresse e-mail
+                password : undefined,   // Champ de saisie du mot de passe
+                userText : false,       // Indicateur d'affichage du message de bienvenue
+                adminName: '',          // Nom de l'administrateur connecté
+                mailError: false,       // Indicateur d'erreur de saisie de l'e-mail
+                passwordError: false,   // Indicateur d'erreur de saisie du mot de passe
+                formError: false,       // Indicateur d'erreur de connexion
+            }
         },
 
         methods: {
+            // Méthode pour effectuer la connexion en envoyant les données au serveur
             async Login() {
-                
-
                 const res = await(await fetch(`${this.API_URL}/login`, {
                     method: 'post',
                     headers: {
@@ -53,9 +51,6 @@
             },
 
         },
-        // created() {
-        //     this.getData();
-        // },
     }
 
 </script>

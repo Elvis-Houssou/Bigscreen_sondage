@@ -3,8 +3,7 @@
     export default {
         data() {
         return {
-            results: [],
-            answers: {},
+            results: [],    // Tableau pour stocker les réponses récupérées du serveur
         }
         },
 
@@ -32,17 +31,23 @@
                     console.error(res.error);
                 }
             },
+
+            // Fonction pour formater la date dans un format lisible
             formatDate(date) {
                 const options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' };
                 const formattedDate = new Date(date).toLocaleString('fr-FR', options);
                 return formattedDate;
             },
+
+            // Fonction pour faire défiler la page vers le haut de manière fluide
             scrollToTop() {
                 window.scrollTo({
                     top: 0,
                     behavior: "smooth"
                 });
             },
+
+            // Fonction pour gérer l'affichage du bouton de retour en haut de page
             handleScroll() {
                 const scrollToTop = document.getElementById("scrollToTop");
                 if (scrollToTop) {

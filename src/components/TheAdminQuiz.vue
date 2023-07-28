@@ -3,11 +3,13 @@
     export default {
       data() {
         return {
-          questions: [],
+          questions: [], // tableau pour stocker les questions récupérées depuis le serveur
         }
       },
 
       methods: {
+        
+        // Fonction pour récupérer les questions depuis le serveur
         async getData() {
           const res = await(await fetch(`${this.API_URL}/admin/get/question/${this.getCurrentUser(this.storageName).token}`, {})).json();
 
@@ -19,6 +21,8 @@
             console.error(res.error);
           }
         },
+
+        // Fonction de déconnexion de l'administrateur
         logout() {
           if (this.storageName) {
             window.localStorage.removeItem(this.storageName);
