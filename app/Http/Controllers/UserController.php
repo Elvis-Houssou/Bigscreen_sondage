@@ -17,6 +17,7 @@ class UserController extends Controller
      */
     public function login(Request $request){
         try {
+            // Valide les champs d'entrée 'email' et 'password' du formulaire.
             $request->validate([
                 "email"=>"required|email:rfc",
                 "password"=>"required|string",
@@ -28,20 +29,25 @@ class UserController extends Controller
 
         $user = User::where(['email'=>$request->email])->first();
 
+        // Vérifie si l'utilisateur existe dans la base de données en fonction de l'e-mail fourni.
         if (!$user) {
            return response()->json(['status'=>'failed', 'error'=>'impossible de se connecter '],202);
         }
+
+        // Vérifie si le mot de passe fourni correspond au mot de passe haché stocké dans la base de données.
         if (!Hash::check($request->password,$user->password) ) {
            return response()->json(['status'=>'failed', 'error'=>'mot de passe incorrect '],202);
 
         }
+
+        // Génère un jeton d'accès pour l'utilisateur et le retourne avec les informations de l'utilisateur connecté.
         $userToken = $user->createToken( "token",  ['*'], now()->addMinutes(15))->plainTextToken;
         return response()->json(['status'=>'done', "Message"=>"connexion valider", "result" => $user ,"token"=>$userToken],200);
 
     }
 
     /**
-     * Display a listing of the responses.
+     * Affiche la liste de toutes les réponses pour la génération du graphique.
      */
     public function showGraphic()
     {
@@ -51,7 +57,7 @@ class UserController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * Affiche la liste de toutes les questions avec leurs choix associés.
      */
     public function questionsList()
     {
@@ -63,7 +69,7 @@ class UserController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * Affiche la liste des réponses groupées par jeton d'utilisateur.
      */
     public function surveyedResponses()
     {

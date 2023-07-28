@@ -12,10 +12,11 @@ class ResponseController extends Controller
 {
 
     /**
-     * Show the form for creating a new resource.
+     * Récupère les réponses associées à un jeton utilisateur.
      */
     public function userResponse($token)
     {
+        // Rechercher le jeton utilisateur dans la base de données
         $userToken = UserToken::where('token', $token)->first();
 
         if ($userToken) {
@@ -28,9 +29,13 @@ class ResponseController extends Controller
 
     }
 
+    /**
+     * Enregistre les réponses fournies par l'utilisateur.
+     */
     public function responseStore(Request $request )
     {
         try {
+            // Récupérer les réponses soumises par l'utilisateur depuis la requête
             $responses = $request->input('responses');
             $rules = [
                 'responses.*.response_text' => 'required',
@@ -46,8 +51,10 @@ class ResponseController extends Controller
                 return response()->json(['status' => 'failed', 'error' => $validator->errors()], 400);
             }
 
+            // génère un identifant unique
             $createToken = Str::uuid()->toString();
 
+            // créé un jeton utilisateur unique
             $token = new UserToken();
             $token->token = $createToken;
             $token->save();
@@ -68,8 +75,5 @@ class ResponseController extends Controller
             $error = $th->getMessage();
             return response()->json(['status' => 'failed', 'error' => $error], 202);
         }
-
-        // Si aucune réponse n'a été fournie
-
     }
 }

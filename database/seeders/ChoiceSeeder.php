@@ -10,10 +10,11 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 class ChoiceSeeder extends Seeder
 {
     /**
-     * Run the database seeds.
+     * Exécute le remplissage initial de la base de données.
      */
     public function run(): void
     {
+        // Tableau contenant les questions et leurs choix associés.
         $questions = [
             [
                 'question_id' => 3,
@@ -93,11 +94,16 @@ class ChoiceSeeder extends Seeder
             ],
         ];
 
+        // Parcourir le tableau de questions et choix pour les enregistrer dans la base de données.
         foreach ($questions as $data) {
+            // Rechercher la question par son ID.
             $question = Question::find($data['question_id']);
 
+            // Vérifier si la question a été trouvée.
             if ($question) {
+                // Parcourir les choix et les ajouter à la question.
                 foreach ($data['choices'] as $choiceText) {
+                    // Créer un nouvel enregistrement de choix pour la question.
                     $question->choices()->create([
                         'choice_text' => $choiceText,
                     ]);
